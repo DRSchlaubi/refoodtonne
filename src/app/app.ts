@@ -31,6 +31,8 @@ export class App {
 
   protected readonly wobbleActive = signal(false);
   protected readonly previousRejected = signal(false);
+  protected readonly overlayVisible = signal(false);
+  protected readonly timeoutId = signal<NodeJS.Timeout | null>(null);
 
   protected toggle(optionId: string): void {
     const current = this.options();
@@ -47,6 +49,13 @@ export class App {
     if (shouldWobble) {
       this.wobbleActive.set(true);
       globalThis.setTimeout(() => this.wobbleActive.set(false), 350);
+    }
+
+    if (nextRejected) {
+      this.timeoutId.set(globalThis.setTimeout(() => this.overlayVisible.set(true), 1000));
+    } else {
+      if (this.timeoutId()) clearTimeout(this.timeoutId() || -1);
+      this.overlayVisible.set(false);
     }
   }
 

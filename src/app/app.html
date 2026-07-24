@@ -4,13 +4,17 @@
       <div class="status-pill" [class.rejected]="isRejected">
         {{ isRejected ? 'MÖP ⚠️ TOT ☠️! Doch nicht in die Refood-Tonne!!' : 'Ja, darf es!' }}
       </div>
-      <img
-        [src]="'/120l_tonne_refood.png'"
-        alt="Refood-Tonne"
-        class="tonne-image"
-        [class.grayscale]="isRejected"
-        [class.wobble]="wobbleActive()"
-      />
+      <div class="image-stack">
+        <img
+          [src]="'/120l_tonne_refood.png'"
+          alt="Refood-Tonne"
+          class="tonne-image"
+          [class.grayscale]="isRejected"
+          [class.wobble]="wobbleActive()"
+        />
+        <img [src]="'/housemd.png'" class="house-overlay" [class.visible]="overlayVisible()">
+        <!-- <div class="house-overlay" [class.visible]="overlayVisible()"></div> -->
+      </div>
     </div>
 
     <div class="content-panel">
