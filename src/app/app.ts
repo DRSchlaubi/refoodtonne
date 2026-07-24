@@ -25,6 +25,8 @@ export class App {
     { id: 'a.wagner', label: 'A. Wagner', active: false},
     { id: 'uran', label: 'Hoch angereichertes Uran ☢️', active: false},
     { id: 'mathe', label: 'Mathe II', active: false},
+    { id: 'timmy-1', label: 'Timmy der Wal (lebendig)', active: false},
+    { id: 'timmy-2', label: 'Timmy der Wal (Kadaver)', active: false}
   ]);
 
   protected readonly wobbleActive = signal(false);
@@ -35,7 +37,7 @@ export class App {
     const nextOptions = current.map((option) =>
       option.id === optionId ? { ...option, active: !option.active } : option
     );
-    const nextRejected = nextOptions.some((option) => option.id === 'tierkadaver' && option.active);
+    const nextRejected = nextOptions.some((option) => (option.id === 'tierkadaver' || option.id === 'timmy-2') && option.active);
 
     this.options.set(nextOptions);
 
@@ -49,6 +51,6 @@ export class App {
   }
 
   protected get isRejected(): boolean {
-    return this.options().some((option) => option.id === 'tierkadaver' && option.active);
+    return this.options().some((option) => (option.id === 'tierkadaver' || option.id === 'timmy-2') && option.active);
   }
 }
