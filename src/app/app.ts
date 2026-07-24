@@ -37,7 +37,7 @@ export class App {
     const nextOptions = current.map((option) =>
       option.id === optionId ? { ...option, active: !option.active } : option
     );
-    const nextRejected = nextOptions.some((option) => (option.id === 'tierkadaver' || option.id === 'timmy-2') && option.active);
+    const nextRejected = nextOptions.some((option) => this.conditionRejected(option));
 
     this.options.set(nextOptions);
 
@@ -51,6 +51,10 @@ export class App {
   }
 
   protected get isRejected(): boolean {
-    return this.options().some((option) => (option.id === 'tierkadaver' || option.id === 'timmy-2') && option.active);
+    return this.options().some((option) => this.conditionRejected(option));
+  }
+
+  protected conditionRejected(option: ConfigOption): boolean {
+    return (option.id === 'tierkadaver' || option.id === 'timmy-2') && option.active
   }
 }
