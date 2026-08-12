@@ -26,7 +26,8 @@ export class App {
     { id: 'uran', label: 'Hoch angereichertes Uran ☢️', active: false},
     { id: 'mathe', label: 'Mathe II', active: false},
     { id: 'timmy-1', label: 'Timmy der Wal (lebendig)', active: false},
-    { id: 'timmy-2', label: 'Timmy der Wal (Kadaver)', active: false}
+    { id: 'timmy-2', label: 'Timmy der Wal (Kadaver)', active: false},
+    { id: 'se', label: 'Software Engineering (Modul)', active: false}
   ]);
 
   protected readonly wobbleActive = signal(false);
