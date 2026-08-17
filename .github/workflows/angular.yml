@@ -54,18 +54,21 @@ jobs:
         sftp -v -P 22 -i ~/.ssh/id_ed25519 \
           -o UserKnownHostsFile=~/.ssh/known_hosts \
           "$SFTP_USER@$SFTP_HOST" <<< "bye"
+    
+    - name: Install lftp
+      run: sudo apt-get update && sudo apt-get install -y lftp
 
-    - name: Deploy via SFTP
+    - name: Deploy via SFTP (lftp mirror)
       env:
         SFTP_USER: ${{ secrets.HETZNER_USER }}
         SFTP_HOST: ${{ secrets.HETZNER_HOST }}
-        REMOTE_PATH: ${{ vars.HETZNER_REMOTE_PATH }}
+        REMOTE_PATH: ${{ secrets.HETZNER_REMOTE_PATH }}
       run: |
-        cat > sftp_batch.txt <<EOF
-        rm $REMOTE_PATH/*
-        put -r dist/refood-tonne/browser/* $REMOTE_PATH
+        lftp -e "
+        set sftp:connect-program 'ssh -a -x -i $HOME/.ssh/id_ed25519 -o UserKnownHostsFile=$HOME/.ssh/known_hosts';
+        mirror -R --delete --verbose dist/refood-tonne/browser/ $REMOTE_PATH;
         bye
-        EOF
+        " sftp://$SFTP_USER@$SFTP_HOST:22
 
         sftp -b sftp_batch.txt -P 22 -i ~/.ssh/id_ed25519 \
           -o UserKnownHostsFile=~/.ssh/known_hosts \
