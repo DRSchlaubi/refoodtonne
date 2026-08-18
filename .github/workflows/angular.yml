@@ -39,7 +39,7 @@ jobs:
     - name: Write SSH key and known_hosts
       env:
         SSH_PRIVATE_KEY_B64: ${{ secrets.HETZNER_SSH_KEY }}
-        SFTP_HOST: ${{ secrets.HETZNER_HOST }}
+        SFTP_HOST: ${{ vars.HETZNER_HOST }}
       run: |
         mkdir -p ~/.ssh
         echo "$SSH_PRIVATE_KEY_B64" | base64 -d > ~/.ssh/id_ed25519
